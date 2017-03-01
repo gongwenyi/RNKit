@@ -1,7 +1,7 @@
 {
-  "name": "teamwork",
+  "name": "RNKit",
   "version": "1.0.0",
-  "description": "A Vue.js project",
+  "description": "RNKit云服务平台",
   "author": "gongwenyi <1054404065@qq.com>",
   "private": true,
   "scripts": {

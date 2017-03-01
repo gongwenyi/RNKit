@@ -1,6 +1,6 @@
-# teamwork
+# RNKit云服务
 
-> A Vue.js project
+> RNKit云服务，提供react native热更新服务
 
 ## Build Setup
 
