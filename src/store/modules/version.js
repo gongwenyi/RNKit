@@ -8,10 +8,20 @@ const defaultState = {
   // versionList: [],  // version列表数据
   isLoading: false, // 是否loading状态
   versionListShouldReload: false,  // 创建/编辑/删除version成功后，version列表需要重新加载
+  createVersionSuccess: false,  // 创建version是否成功
+  createVersionData: {},  // 创建后的version数据
+  editVersionSuccess: false,  // 编辑version是否成功
+  editVersionData: {},  // 编辑后的version数据
+  delVersionSuccess: false,  // 删除version是否成功
 };
 
 const getters = {
   // versionList: state => state.versionList,  // version列表数据
+  createVersionSuccess: state => state.createVersionSuccess,  // 创建version是否成功
+  createVersionData: state => state.createVersionData,  // 创建后的version数据
+  editVersionSuccess: state => state.editVersionSuccess,  // 编辑version是否成功
+  editVersionData: state => state.editVersionData,  // 编辑后的version数据
+  delVersionSuccess: state => state.delVersionSuccess,  // 删除version是否成功
 };
 
 const actions = {
@@ -59,14 +69,14 @@ const actions = {
    */
   createVersion({ commit, dispatch }, paramObject) {
     commit(types.IS_LOADING, { value: true });  // 开始loading
-    commit(types.VERSION_LIST_SHOULD_RELOAD, { value: false });  // 补丁列表不需要重新加载
+    commit(types.CREATE_VERSION_SUCCESS, { value: false, data: {} });  // 补丁列表不需要重新加载
     return versionApi.create(paramObject).then((response) => {
       if (response.errno === 0) { // 创建成功
         commit(types.IS_LOADING, { value: false });  // 结束loading
-        commit(types.VERSION_LIST_SHOULD_RELOAD, { value: true });  // 补丁列表需要重新加载
+        commit(types.CREATE_VERSION_SUCCESS, { value: true, data: response.data });  // 补丁列表需要重新加载
       } else {  // 创建失败
         commit(types.IS_LOADING, { value: false });  // 结束loading
-        commit(types.VERSION_LIST_SHOULD_RELOAD, { value: false });  // 补丁列表不需要重新加载
+        commit(types.CREATE_VERSION_SUCCESS, { value: false, data: {} });  // 补丁列表不需要重新加载
         Message.error(response.errmsg);
       }
     })
@@ -97,14 +107,14 @@ const actions = {
    */
   updateVersion({ commit, dispatch }, paramObject) {
     commit(types.IS_LOADING, { value: true });  // 开始loading
-    commit(types.VERSION_LIST_SHOULD_RELOAD, { value: false });  // 补丁列表不需要重新加载
+    commit(types.EDIT_VERSION_SUCCESS, { value: false, data: {} });  // 补丁列表不需要重新加载
     return versionApi.update(paramObject).then((response) => {
       if (response.errno === 0) { // 更新成功
         commit(types.IS_LOADING, { value: false });  // 结束loading
-        commit(types.VERSION_LIST_SHOULD_RELOAD, { value: true });  // 补丁列表需要重新加载
+        commit(types.EDIT_VERSION_SUCCESS, { value: true, data: response.data });  // 补丁列表需要重新加载
       } else {  // 更新失败
         commit(types.IS_LOADING, { value: false });  // 结束loading
-        commit(types.VERSION_LIST_SHOULD_RELOAD, { value: false });  // 补丁列表不需要重新加载
+        commit(types.EDIT_VERSION_SUCCESS, { value: false, data: {} });  // 补丁列表不需要重新加载
         Message.error(response.errmsg);
       }
     })
@@ -119,12 +129,12 @@ const actions = {
    * @returns
    */
   delVersion({ commit, dispatch }, paramObject) {
-    commit(types.VERSION_LIST_SHOULD_RELOAD, { value: false });  // package列表不需要重新加载
+    commit(types.DEL_VERSION_SUCCESS, { value: false });  // package列表不需要重新加载
     return versionApi.del(paramObject).then((response) => {
       if (response.errno === 0) { // 删除成功
-        commit(types.VERSION_LIST_SHOULD_RELOAD, { value: true });  // package列表需要重新加载
+        commit(types.DEL_VERSION_SUCCESS, { value: true });  // package列表需要重新加载
       } else {  // 删除失败
-        commit(types.VERSION_LIST_SHOULD_RELOAD, { value: false });  // package列表不需要重新加载
+        commit(types.DEL_VERSION_SUCCESS, { value: false });  // package列表不需要重新加载
         Message.error(response.errmsg);
       }
     })
@@ -146,6 +156,17 @@ const mutations = {
   },
   [types.VERSION_LIST_SHOULD_RELOAD](state, payload) {
     state.versionListShouldReload = payload.value;
+  },
+  [types.CREATE_VERSION_SUCCESS](state, payload) {
+    state.createVersionSuccess = payload.value;
+    state.createVersionData = payload.data;
+  },
+  [types.EDIT_VERSION_SUCCESS](state, payload) {
+    state.editVersionSuccess = payload.value;
+    state.editVersionData = payload.data;
+  },
+  [types.DEL_VERSION_SUCCESS](state, payload) {
+    state.delVersionSuccess = payload.value;
   },
 };
 

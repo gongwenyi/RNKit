@@ -23,6 +23,10 @@
       </p>
       <el-button class="button" size="small" @click="addAppFormVisible = true">创建App</el-button>
     </el-card>
+    <!--加载更多-->
+    <div v-if="appListTotalPages > appListCurrentPage" class="loadmore-btn-box">
+      <el-button type="text" :loading="appListLoadMoreLoading" @click="appListLoadMore">加载更多</el-button>
+    </div>
     <el-dialog title="创建App" v-model="addAppFormVisible" size="small" :close-on-click-modal="false">
       <el-form :model="addAppForm" :rules="rules" ref="addAppForm">
         <el-form-item prop="platform" label="应用平台" :label-width="formLabelWidth">
@@ -55,6 +59,7 @@
     name: 'login',
     data() {
       return {
+        appListCurrentPage: 1,  // app列表当前页
         addAppFormVisible: false, // 创建app弹出框是否显示
         addAppForm: {
           platform: 1,
@@ -82,6 +87,9 @@
       getAppListIsLoading() { // 获取应用列表是否loading中
         return this.$store.state.app.getAppListIsLoading;
       },
+      appListTotalPages() { // 获取应用列表是否loading中
+        return this.$store.state.app.appListTotalPages;
+      },
       isLoading() { // 创建app是否loading中
         return this.$store.state.app.isLoading;
       },
@@ -104,7 +112,8 @@
       },
     },
     created: function created() {
-      this.$store.dispatch('list', { page: '' });  // 获取应用列表
+      this.$store.commit('CLEAR_APP_LIST'); // 清空APP列表
+      this.$store.dispatch('list', { page: 1 });  // 获取应用列表
     },
     methods: {
       create(formName) {  // 创建app
@@ -114,6 +123,10 @@
             this.$store.dispatch('create', { name: this.addAppForm.name, app_identifier: this.addAppForm.identifier, platform: `${this.addAppForm.platform}`, download_url: this.addAppForm.downloadUrl });
           }
         });
+      },
+      appListLoadMore() { // app列表加载更多
+        this.appListCurrentPage += 1;
+        this.$store.dispatch('list', { page: this.appListCurrentPage });  // 获取应用列表
       },
     },
     components: {},
@@ -166,6 +179,11 @@
   .app-version,
   .app-identifier {
     font-size: 12px;
+  }
+  .loadmore-btn-box {
+    clear: both;
+    margin-top: 10px;
+    text-align: center;
   }
 
 </style>

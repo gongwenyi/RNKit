@@ -11,6 +11,7 @@ const defaultState = {
   editIsLoading: false, // 编辑app loading状态
   delIsLoading: false, // 删除app loading状态
   appList: [],  // app列表
+  appListTotalPages: 0, // app列表总页数
   appInfo: {},  // app信息
 };
 
@@ -32,6 +33,7 @@ const actions = {
       if (response.errno === 0) { // 获取应用列表成功
         commit(types.GET_APP_LIST_IS_LOADING, { value: false });  // 结束loading
         commit(types.GET_APP_LIST, response.data.data);  // 保存APP列表数据
+        commit(types.GET_APP_LIST_TOTAL_PAGES, response.data.totalPages);  // 保存APP列表数据
       } else {  // 获取应用列表失败
         commit(types.GET_APP_LIST_IS_LOADING, { value: false });  // 结束loading
         Message.error(response.errmsg);
@@ -52,11 +54,12 @@ const actions = {
    */
   create({ commit, dispatch }, paramObject) {
     commit(types.IS_LOADING, { value: true });  // 开始loading
+    commit(types.CREATE_APP_IS_SUCCESS, { value: false });  // 创建APP成功
     return appApi.create(paramObject).then((response) => {
       if (response.errno === 0) { // 创建成功
         commit(types.IS_LOADING, { value: false });  // 结束loading
-        commit(types.CREATE_APP_IS_SUCCESS, { value: true });  // 创建APP成功
-        dispatch('list'); // 重新获取APP列表
+        commit(types.CREATE_APP_IS_SUCCESS, { value: true, data: response.data });  // 创建APP成功
+        // dispatch('list'); // 重新获取APP列表
       } else {  // 创建失败
         commit(types.IS_LOADING, { value: false });  // 结束loading
         commit(types.CREATE_APP_IS_SUCCESS, { value: false });  // 创建APP失败
@@ -140,12 +143,24 @@ const mutations = {
   },
   [types.CREATE_APP_IS_SUCCESS](state, payload) {
     state.createAppIsSuccess = payload.value;
+    if (payload.data) {
+      state.appList.push(payload.data);
+    }
+  },
+  [types.CLEAR_APP_LIST](state) {
+    state.appList = [];
   },
   [types.GET_APP_LIST_IS_LOADING](state, payload) {
     state.getAppListIsLoading = payload.value;
   },
   [types.GET_APP_LIST](state, payload) {
-    state.appList = payload;
+    payload.forEach((item) => {  // 保存补丁列表数据
+      state.appList.push(item);
+    });
+    // state.appList = payload;
+  },
+  [types.GET_APP_LIST_TOTAL_PAGES](state, payload) {
+    state.appListTotalPages = payload;
   },
   [types.GET_APP_INFO](state, payload) {
     state.appInfo = Object.assign({}, state.appInfo, payload);

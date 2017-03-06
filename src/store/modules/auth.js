@@ -33,6 +33,7 @@ const actions = {
     return authApi.register(paramObject).then((response) => {
       if (response.errno === 0) { // 注册成功
         commit(types.IS_LOADING, { value: false });  // 结束loading
+        router.replace({ name: 'login' });  // 跳转到我的APP页面
       } else {  // 注册失败
         commit(types.IS_LOADING, { value: false });  // 结束loading
         Message.error(response.errmsg);

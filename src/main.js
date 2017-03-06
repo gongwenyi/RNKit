@@ -16,7 +16,7 @@ Vue.use(ElementUI);
 Vue.use(vueAxios, axios);
 
 // axios配置
-axios.defaults.baseURL = 'http://10.1.18.25:8360/api/v1/';
+axios.defaults.baseURL = 'http://10.1.17.90:8360/api/v1/';
 
 // 请求hook
 axios.interceptors.request.use((config) => {
