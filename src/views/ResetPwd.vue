@@ -62,6 +62,9 @@ export default {
       },
     };
   },
+  created() {
+    this.$store.commit('IS_INDEX_PAGE', false); // 不在首页
+  },
   computed: {
     isLoading() {
       return this.$store.state.auth.isLoading;

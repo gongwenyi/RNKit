@@ -114,6 +114,7 @@
     created: function created() {
       this.$store.commit('CLEAR_APP_LIST'); // 清空APP列表
       this.$store.dispatch('list', { page: 1 });  // 获取应用列表
+      this.$store.commit('IS_INDEX_PAGE', false); // 不在首页
     },
     methods: {
       create(formName) {  // 创建app

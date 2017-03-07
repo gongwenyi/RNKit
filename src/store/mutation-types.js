@@ -3,6 +3,7 @@
  */
 
 export const IS_LOADING = 'IS_LOADING'; // loading
+export const IS_INDEX_PAGE = 'IS_INDEX_PAGE'; // 是否位于首页
 
 // auth
 export const AUTH_IS_LOGIN = 'AUTH_IS_LOGIN'; // 用户是否登录

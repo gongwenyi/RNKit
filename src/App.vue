@@ -1,7 +1,7 @@
 <template>
   <div class="main">
     <Headers />
-    <div class="content">
+    <div class="content" :class="{'index' : isIndexPage }">
       <router-view></router-view>
     </div>
     <Footers />
@@ -9,11 +9,21 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import Headers from 'components/Header';
 import Footers from 'components/Footer';
 
 export default {
   name: 'app',
+  data() {
+    return {
+    };
+  },
+  computed: {
+    ...mapGetters([
+      'isIndexPage',
+    ]),
+  },
   components: {
     Headers,
     Footers,
@@ -31,5 +41,9 @@ export default {
     min-height: -moz-calc(100vh - 104px);
     min-height: -webkit-calc(100vh - 104px);
     min-height:  calc(100vh - 104px);
+  }
+  .index{
+    max-width: 100%;
+    padding-top: 0;
   }
 </style>

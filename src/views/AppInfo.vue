@@ -58,6 +58,7 @@
     created: function created() {
       this.editAppForm.name = this.appInfo.name;
       this.editAppForm.downloadUrl = this.appInfo.download_url;
+      this.$store.commit('IS_INDEX_PAGE', false); // 不在首页
     },
     methods: {
       edit(formName) {  // 编辑app

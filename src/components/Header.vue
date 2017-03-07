@@ -1,5 +1,5 @@
 <template>
-  <header class="nav">
+  <header class="nav" :class="{'index' : isIndexPage }">
     <div class="nav-content">
       <router-link :to="{name: 'index'}">
         <img class="logo" src="../assets/logo.png" alt="RNKit云服务">
@@ -37,12 +37,19 @@
     },
     data() {
       return {
-
+        index: false,
       };
+    },
+    watch: {
+      index: function xx() {
+        console.log(121212121);
+        return this.$route.name === 'index';
+      },
     },
     computed: {
       ...mapGetters([
         'authIsLogin',
+        'isIndexPage',
       ]),
     },
     methods: {
@@ -66,6 +73,9 @@
     height: 54px;
     background-color: #20a0ff;
     z-index: 10;
+  }
+  .index{
+    background-color: rgba(255,255,255,0);
   }
   .nav-content {
     display: flex;
