@@ -1,7 +1,7 @@
 <template>
   <div class="main">
     <Headers />
-    <div class="content" :class="{'index' : isIndexPage }">
+    <div class="content" :class="{'indexPage' : isIndexPage }">
       <router-view></router-view>
     </div>
     <Footers />
@@ -42,7 +42,7 @@ export default {
     min-height: -webkit-calc(100vh - 104px);
     min-height:  calc(100vh - 104px);
   }
-  .index{
+  .indexPage{
     max-width: 100%;
     padding-top: 0;
   }

@@ -75,7 +75,8 @@
     z-index: 10;
   }
   .index{
-    background-color: rgba(255,255,255,0);
+    background: rgba(255,255,255,0);
+    /*background-image: linear-gradient(45deg, #0B4182 1%, #1e88e5 64%, #40BAF5 97%);*/
   }
   .nav-content {
     display: flex;
