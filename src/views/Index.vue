@@ -7,12 +7,14 @@
       <p class="pro_title">我们的产品</p>
       <ul class="pro_contain">
         <li v-for="(item, index) in products" >
-          <i class="pro_li_img"></i>
-          <div class="pro_li_body">
-            <p class="pro_li_title"> 类型：{{ item.title }} </p>
-            <p class="pro_li_details"> 详情：{{ item.details }} </p>
-            <p class="pro_li_price"> 价格：{{ item.price }} 元起</p>
-          </div>
+          <router-link class="item" :to="{name: 'vip'}">
+            <i class="pro_li_img"></i>
+            <div class="pro_li_body">
+              <p class="pro_li_title"> 类型：{{ item.title }} </p>
+              <p class="pro_li_details"> 详情：{{ item.details }} </p>
+              <p class="pro_li_price"> 价格：{{ item.price }} 元起</p>
+            </div>
+          </router-link>
         </li>
       </ul>
     </div>
@@ -67,15 +69,6 @@ export default {
   created() {
     // 判断是否为首页
     this.$store.commit('IS_INDEX_PAGE', true);
-    // 滚动改变header颜色
-    window.onscroll = function () {
-      const indexNav = document.getElementsByClassName('index');
-      if (document.body.scrollTop >= 500) {
-        indexNav[0].style = 'background: linear-gradient(45deg, #0B4182 1%, #1e88e5 64%, #40BAF5 97%)';
-      } else {
-        indexNav[0].style = 'background: rgba(255,255,255,0)';
-      }
-    };
   },
   methods: {
   },
@@ -90,9 +83,15 @@ export default {
   padding: 0;
   margin:0;
 }
+a{
+  text-decoration: none;
+}
+a:visited{
+/*  color: #000;*/
+}
 .banner{
   height: 500px;
-  background-image: linear-gradient(45deg, #0B4182 1%, #1e88e5 64%, #40BAF5 97%);
+  background-image: linear-gradient(90deg, #0B4182 1%, #1e88e5 64%, #40BAF5 97%);
   margin: 0 auto;
   color: #fff;
 }
@@ -146,10 +145,10 @@ export default {
   background-image: url('../assets/index/compute.svg');
 }
 .pro_contain li:nth-of-type(2) i{
-  background-image: url('../assets/index/dedicated.svg');
+  background-image: url('../assets/index/storage.svg');
 }
 .pro_contain li:nth-of-type(3) i{
-  background-image: url('../assets/index/storage.svg');
+  background-image: url('../assets/index/dedicated.svg');
 }
 .pro_li_body p{
   text-align: center;
@@ -160,6 +159,7 @@ export default {
   font-size: 20px;
   line-height: 28px;
   font-weight: bold;
+  color:#363b40;
 }
 .pro_li_details{
   margin-bottom: 24px;
@@ -223,8 +223,15 @@ export default {
   background: #fff;
   border: 1px solid #1e88e5;
   color: #1e88e5;
+  font-weight: bold;
   border-radius: 3px;
   margin: 10px auto;
+}
+.ser_join:hover{
+  background: #1e88e5;
+  opacity: 0.8;
+  border: 1px solid #fff;
+  color: #fff;
 }
 /*合作商*/
 .cooperate{

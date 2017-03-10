@@ -1,12 +1,12 @@
 <template>
-  <header class="nav" :class="{'index' : isIndexPage }">
+  <header class="nav">
     <div class="nav-content">
       <router-link :to="{name: 'index'}">
         <img class="logo" src="../assets/logo.png" alt="RNKit云服务">
       </router-link>
       <div class="nav-list">
         <router-link v-show="authIsLogin === true" class="item" :to="{name: 'myApp'}">我的应用</router-link>
-        <router-link class="item" :to="{name: 'register'}">价格</router-link>
+        <router-link class="item" :to="{name: 'vip'}">价格</router-link>
         <router-link class="item" :to="{name: 'register'}">文档</router-link>
         <router-link class="item" :to="{name: 'register'}">工具</router-link>
         <router-link class="item" :to="{name: 'resetPwd'}">SDK下载</router-link>
@@ -41,10 +41,6 @@
       };
     },
     watch: {
-      index: function xx() {
-        console.log(121212121);
-        return this.$route.name === 'index';
-      },
     },
     computed: {
       ...mapGetters([
@@ -71,12 +67,8 @@
     top: 0;
     width: 100%;
     height: 54px;
-    background-color: #20a0ff;
+    background-image: linear-gradient(90deg, #0B4182 1%, #1e88e5 64%, #40BAF5 97%);
     z-index: 10;
-  }
-  .index{
-    background: rgba(255,255,255,0);
-    /*background-image: linear-gradient(45deg, #0B4182 1%, #1e88e5 64%, #40BAF5 97%);*/
   }
   .nav-content {
     display: flex;

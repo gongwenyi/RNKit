@@ -3,6 +3,10 @@ import Router from 'vue-router';
 // import jwt from '../utils/jwt';
 import App from '../App';
 import Index from '../views/Index';
+import Product from '../views/Product';
+import Vip from '../views/product/Vip';
+import Vvip from '../views/product/Vvip';
+import Vvvip from '../views/product/Vvvip';
 import Login from '../views/Login';
 import Register from '../views/Register';
 import ResetPwd from '../views/ResetPwd';
@@ -21,6 +25,17 @@ const routes = [
     redirect: 'index',
     children: [
       { path: '/index', name: 'index', component: Index, meta: { title: 'RNKit云服务' } },
+      { path: '/product', name: 'product', component: Product, meta: { title: '价格' } },
+      { path: '/product',
+        name: 'product',
+        component: Product,
+        meta: { title: '价格' },
+        children: [
+          { path: 'vip', name: 'vip', component: Vip, meta: { title: 'vip价格' } },
+          { path: 'vvip', name: 'vvip', component: Vvip, meta: { title: 'vvip价格' } },
+          { path: 'vvvip', name: 'vvvip', component: Vvvip, meta: { title: 'vvvip价格' } },
+        ],
+      },
       { path: '/login', name: 'login', component: Login, meta: { title: '登录' } },
       { path: '/register', name: 'register', component: Register, meta: { title: '注册' } },
       { path: '/resetPwd', name: 'resetPwd', component: ResetPwd, meta: { title: '重置密码' } },
