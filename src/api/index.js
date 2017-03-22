@@ -14,22 +14,34 @@ const auth = {
   login(paramObject) {
     return Vue.axios.post('/auth/login', paramObject);
   },
-  // 重置密码
-  resetPwd(paramObject) {
+  // 忘记密码
+  forgotPwd(paramObject) {
     return Vue.axios.post('/auth/forgot', paramObject);
+  },
+  // 修改密码
+  changePwd(paramObject) {
+    return Vue.axios.post('/auth/change_password', paramObject);
   },
   // 退出登录
   logout(paramObject) {
     return Vue.axios.post('/auth/logout', paramObject);
   },
+  // 绑定手机号
+  bindMobile(paramObject) {
+    return Vue.axios.post('/auth/bind_mobile', paramObject);
+  },
+  // 绑定邮箱
+  bindEmail(paramObject) {
+    return Vue.axios.post('/auth/bind_email', paramObject);
+  },
   // 当前登录用户信息
   me(paramObject) {
-    return Vue.axios.post('/auth/me', paramObject);
+    return Vue.axios.get('/auth/me', { params: paramObject });
   },
   // 刷新token
-  refreshToken() {
-    return Vue.axios.post('/refresh_token');
-  },
+  // refreshToken() {
+  //   return Vue.axios.post('/refresh_token');
+  // },
 };
 
 // app

@@ -9,7 +9,7 @@
         <router-link class="item" :to="{name: 'vip'}">价格</router-link>
         <router-link class="item" :to="{name: 'register'}">文档</router-link>
         <router-link class="item" :to="{name: 'register'}">工具</router-link>
-        <router-link class="item" :to="{name: 'resetPwd'}">SDK下载</router-link>
+        <router-link class="item" :to="{name: 'forgetPwd'}">SDK下载</router-link>
         <router-link v-show="authIsLogin === false" class="item" :to="{name: 'login'}">登录</router-link>
         <router-link v-show="authIsLogin === false" class="item" :to="{name: 'register'}">注册</router-link>
         <div v-show="authIsLogin === true" class="item-me">
@@ -18,6 +18,8 @@
               <img src="../assets/avatar.png" style="width: 30px; border-radius: 30px;" alt="avatar">
             </span>
             <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item command="bind">绑定手机/邮箱</el-dropdown-item>
+              <el-dropdown-item command="changePwd">修改密码</el-dropdown-item>
               <el-dropdown-item command="logout">退出登录</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
@@ -40,21 +42,32 @@
         index: false,
       };
     },
-    watch: {
-    },
     computed: {
       ...mapGetters([
-        'authIsLogin',
-        'isIndexPage',
+        'authIsLogin',  // 用户是否登录
       ]),
+    },
+    watch: {
+    },
+    created: function created() {
     },
     methods: {
       handleCommand(command) {
         // console.log(command);
-        if (command === 'logout') {
+        if (command === 'bind') {  // 绑定手机/邮箱
+          this.$router.push({ name: 'bind' });
+          return false;
+        }
+        if (command === 'changePwd') {  // 修改密码
+          this.$router.push({ name: 'changePwd' });
+          return false;
+        }
+        if (command === 'logout') { // 退出登录
           // console.log('退出');
           this.$store.dispatch('logout');
+          return false;
         }
+        return false;
       },
     },
   };

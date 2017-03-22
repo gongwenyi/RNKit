@@ -8,7 +8,7 @@
         <el-input size="large" v-model="loginForm.password" type="password" placeholder="请输入密码"></el-input>
       </el-form-item>
       <p class="forget-password">
-        <router-link class="forget-password-link" :to="{ name: 'resetPwd'}">忘记密码？</router-link>
+        <router-link class="forget-password-link" :to="{ name: 'forgetPwd'}">忘记密码？</router-link>
       </p>
       <el-button class="btn-login" :loading="isLoading" size="large" type="primary" @click="login('loginForm')">登  录</el-button>
       <p class="register">还没有账号？<router-link class="register-link" :to="{ name: 'register' }">立即注册</router-link></p>

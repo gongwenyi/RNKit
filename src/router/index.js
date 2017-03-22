@@ -9,7 +9,9 @@ import Vvip from '../views/product/Vvip';
 import Vvvip from '../views/product/Vvvip';
 import Login from '../views/Login';
 import Register from '../views/Register';
-import ResetPwd from '../views/ResetPwd';
+import ForgetPwd from '../views/ForgetPwd';
+import ChangePwd from '../views/ChangePwd';
+import Bind from '../views/Bind';
 import MyApp from '../views/MyApp';
 import AppCont from '../views/AppCont';
 import Patch from '../views/Patch';
@@ -38,7 +40,9 @@ const routes = [
       },
       { path: '/login', name: 'login', component: Login, meta: { title: '登录' } },
       { path: '/register', name: 'register', component: Register, meta: { title: '注册' } },
-      { path: '/resetPwd', name: 'resetPwd', component: ResetPwd, meta: { title: '重置密码' } },
+      { path: '/forgetPwd', name: 'forgetPwd', component: ForgetPwd, meta: { title: '忘记密码' } },
+      { path: '/changePwd', name: 'changePwd', component: ChangePwd, meta: { title: '修改密码' } },
+      { path: '/bind', name: 'bind', component: Bind, meta: { title: '绑定手机/邮箱' } },
       { path: '/myApp', name: 'myApp', component: MyApp, meta: { title: '我的应用' } },
       { path: '/myApp/:key',
         name: 'appCont',

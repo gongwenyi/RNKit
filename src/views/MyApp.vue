@@ -1,5 +1,5 @@
 <template>
-  <div class="container" v-loading.body="getAppListIsLoading" element-loading-text="拼命加载中">
+  <div class="container" v-loading="getAppListIsLoading" element-loading-text="拼命加载中">
     <template v-for="item in appList">
       <el-card class="card" :body-style="{ padding: '0px' }">
         <!--app图标-->

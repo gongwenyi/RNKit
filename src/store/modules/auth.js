@@ -8,12 +8,12 @@ const defaultState = {
   isLoading: false, // 是否loading状态
   authIsLogin: jwt.checkAuth() || false, // 用户是否已经登录，如果localStorage中的token不为空，则为登录状态
   refreshToken: false,  // 刷新token请求
-  currentUser: {},  // 当前登录信息
+  currentUserInfo: {},  // 当前登录用户的信息
 };
 
 const getters = {
   authIsLogin: state => state.authIsLogin,
-  currentUser: state => state.currentUser,
+  currentUserInfo: state => state.currentUserInfo,
 };
 
 const actions = {
@@ -88,7 +88,7 @@ const actions = {
     });
   },
   /**
-   * 重置密码
+   * 忘记密码
    * @param {any} { commit }
    * @param {object} paramObject={ email: 邮箱,
    *                               mobile: 手机号(邮箱，手机号二选一),
@@ -97,9 +97,9 @@ const actions = {
    *                               new_password: 用户密码, 请使用 md5(password) 后传输 }
    * @returns
    */
-  resetPwd({ commit }, paramObject) {
+  forgotPwd({ commit }, paramObject) {
     commit(types.IS_LOADING, { value: true });  // 开始loading
-    return authApi.resetPwd(paramObject).then((response) => {
+    return authApi.forgotPwd(paramObject).then((response) => {
       if (response.errno === 0) { // 重置密码成功
         commit(types.IS_LOADING, { value: false });  // 结束loading
         Message.success('重置密码成功，请重新登录');
@@ -113,7 +113,38 @@ const actions = {
       console.log(error);
     });
   },
-  // 退出
+  /**
+   * 修改密码
+   * @param {any} { commit }
+   * @param {object} paramObject={ old_password: 原密码,md5(password) 后传输
+   *                               new_password: 新密码,md5(password) 后传输 }
+   * @returns
+   */
+  changePwd({ commit }, paramObject) {
+    commit(types.IS_LOADING, { value: true });  // 开始loading
+    return authApi.changePwd(paramObject).then((response) => {
+      if (response.errno === 0) { // 修改密码成功
+        commit(types.IS_LOADING, { value: false });  // 结束loading
+        commit(types.AUTH_IS_LOGIN, { value: false });  // 用户登录状态
+        jwt.removeToken();  // 清除token
+        commit(types.AUTH_LOGOUT);
+        Message.success('修改密码成功，请重新登录');
+        router.replace({ name: 'login' });
+      } else {  // 修改密码失败
+        commit(types.IS_LOADING, { value: false });  // 结束loading
+        Message.error(response.errmsg);
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  },
+  /**
+   * 退出登录
+   * @param {any} { commit }
+   * @param {object} paramObject={ token: 用户的token }
+   * @returns
+   */
   logout({ commit }) {
     return authApi.logout({ token: jwt.getToken() }).then((response) => {
       if (response.errno === 0) { // 退出成功
@@ -131,23 +162,78 @@ const actions = {
     });
   },
   // 刷新token
-  refreshToken({ commit, state }) {
-    if (!state.refreshToken) {
-      commit(types.AUTH_REFRESH_TOKEN, true);
-      return authApi.refreshToken().then((response) => {
-        jwt.setToken(response.data.token);
-        commit(types.AUTH_REFRESH_TOKEN, false);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    }
-    return true;
-  },
-  // 当前登录用户信息
+  // refreshToken({ commit, state }) {
+  //   if (!state.refreshToken) {
+  //     commit(types.AUTH_REFRESH_TOKEN, true);
+  //     return authApi.refreshToken().then((response) => {
+  //       jwt.setToken(response.data.token);
+  //       commit(types.AUTH_REFRESH_TOKEN, false);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  //   }
+  //   return true;
+  // },
+  /**
+   * 获取用户信息
+   * @param {any} { commit }
+   * @param {object} paramObject={ token: 用户的token }
+   * @returns
+   */
   getCurrentUserInfo({ commit }) {
     return authApi.me({ token: jwt.getToken() }).then((response) => {
-      commit(types.AUTH_CURRENT_USER, response.data);
+      if (response.errno === 0) { // 获取用户信息成功
+        commit(types.AUTH_CURRENT_USER, response.data);
+      } else {  // 获取用户信息失败
+        Message.error(response.errmsg);
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  },
+  /**
+   * 绑定手机号
+   * @param {any} { commit }
+   * @param {object} paramObject={ phone: 手机号
+   *                               code: 手机验证码 }
+   * @returns
+   */
+  bindMobile({ commit }, paramObject) {
+    commit(types.IS_LOADING, { value: true });  // 开始loading
+    return authApi.bindMobile(paramObject).then((response) => {
+      if (response.errno === 0) { // 绑定手机号成功
+        commit(types.IS_LOADING, { value: false });  // 结束loading
+        Message.success('绑定手机号成功');
+        router.replace({ name: 'bind' }); // 刷新页面
+      } else {  // 绑定手机号失败
+        commit(types.IS_LOADING, { value: false });  // 结束loading
+        Message.error(response.errmsg);
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  },
+  /**
+   * 绑定邮箱
+   * @param {any} { commit }
+   * @param {object} paramObject={ email: 邮箱
+   *                               code: 邮箱验证码 }
+   * @returns
+   */
+  bindEmail({ commit }, paramObject) {
+    commit(types.IS_LOADING, { value: true });  // 开始loading
+    return authApi.bindEmail(paramObject).then((response) => {
+      if (response.errno === 0) { // 绑定邮箱成功
+        commit(types.IS_LOADING, { value: false });  // 结束loading
+        Message.success('绑定邮箱成功');
+        router.replace({ name: 'bind' }); // 刷新页面
+      } else {  // 绑定邮箱失败
+        commit(types.IS_LOADING, { value: false });  // 结束loading
+        Message.error(response.errmsg);
+      }
     })
     .catch((error) => {
       console.log(error);
@@ -163,10 +249,10 @@ const mutations = {
     state.authIsLogin = payload.value;
   },
   [types.AUTH_LOGOUT](state) {
-    state.currentUser = {};
+    state.currentUserInfo = {};
   },
   [types.AUTH_CURRENT_USER](state, payload) {
-    state.currentUser = Object.assign({}, state.currentUser, payload);
+    state.currentUserInfo = Object.assign({}, state.currentUserInfo, payload);
   },
   [types.AUTH_REFRESH_TOKEN](state, flag) {
     state.refreshToken = flag;

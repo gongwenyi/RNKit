@@ -473,11 +473,11 @@
       },
       handlePackageBeforeUpload(file) {  // 上传文件之前检查文件格式是否符合要求
         // console.log(file);
-        if (this.appInfo.platform === 1 && file.name.lastIndexOf('.ipa') < 0) {
+        if (!(this.appInfo.platform === 1 && file.name.lastIndexOf('.ipa') === file.name.length - 4)) {
           this.$message.error('只能上传.ipa格式的文件！');
           return false;
         }
-        if (this.appInfo.platform === 2 && file.name.lastIndexOf('.apk') < 0) {
+        if (!(this.appInfo.platform === 2 && file.name.lastIndexOf('.apk') === file.name.length - 4)) {
           this.$message.error('只能上传.apk格式的文件！');
           return false;
         }
@@ -485,7 +485,7 @@
       },
       handleVersionBeforeUpload(file) {  // 上传文件之前检查文件格式是否符合要求
         // console.log(file);
-        if (file.name.lastIndexOf('.ppk') < 0) {
+        if (!(file.name.lastIndexOf('.ppk') === file.name.length - 4)) {
           this.$message.error('只能上传.ppk格式的文件！');
           return false;
         }
