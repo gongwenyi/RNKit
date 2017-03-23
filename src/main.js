@@ -16,7 +16,11 @@ Vue.use(ElementUI);
 Vue.use(vueAxios, axios);
 
 // axios配置
-axios.defaults.baseURL = 'http://10.1.17.90:8360/api/v1/';
+if (process.env.NODE_ENV === 'development') {
+  axios.defaults.baseURL = 'http://10.1.17.90:8360/api/v1/';
+} else {
+  axios.defaults.baseURL = 'https://update.rnkit.io/api/v1/';
+}
 
 // 请求hook
 axios.interceptors.request.use((config) => {
