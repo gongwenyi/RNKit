@@ -1,9 +1,6 @@
 <template>
   <footer class="footer">
     <div class="footer-content">
-      <p>这是底部信息</p>
-      <p>这是底部信息</p>
-      <p>这是底部信息</p>
     </div>
   </footer>
 </template>

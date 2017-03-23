@@ -1,12 +1,12 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-// import jwt from '../utils/jwt';
+import jwt from '../utils/jwt';
 import App from '../App';
-import Index from '../views/Index';
-import Product from '../views/Product';
-import Vip from '../views/product/Vip';
-import Vvip from '../views/product/Vvip';
-import Vvvip from '../views/product/Vvvip';
+// import Index from '../views/Index';
+// import Product from '../views/Product';
+// import Vip from '../views/product/Vip';
+// import Vvip from '../views/product/Vvip';
+// import Vvvip from '../views/product/Vvvip';
 import Login from '../views/Login';
 import Register from '../views/Register';
 import ForgetPwd from '../views/ForgetPwd';
@@ -24,20 +24,20 @@ const routes = [
   {
     path: '/',
     component: App,
-    redirect: 'index',
+    redirect: 'login',
     children: [
-      { path: '/index', name: 'index', component: Index, meta: { title: 'RNKit云服务' } },
-      { path: '/product', name: 'product', component: Product, meta: { title: '价格' } },
-      { path: '/product',
-        name: 'product',
-        component: Product,
-        meta: { title: '价格' },
-        children: [
-          { path: 'vip', name: 'vip', component: Vip, meta: { title: 'vip价格' } },
-          { path: 'vvip', name: 'vvip', component: Vvip, meta: { title: 'vvip价格' } },
-          { path: 'vvvip', name: 'vvvip', component: Vvvip, meta: { title: 'vvvip价格' } },
-        ],
-      },
+      { path: '/index', name: 'index', component: MyApp, meta: { title: 'RNKit云服务' } },
+      // { path: '/product', name: 'product', component: Product, meta: { title: '价格' } },
+      // { path: '/product',
+      //   name: 'product',
+      //   component: Product,
+      //   meta: { title: '价格' },
+      //   children: [
+      //     { path: 'vip', name: 'vip', component: Vip, meta: { title: 'vip价格' } },
+      //     { path: 'vvip', name: 'vvip', component: Vvip, meta: { title: 'vvip价格' } },
+      //     { path: 'vvvip', name: 'vvvip', component: Vvvip, meta: { title: 'vvvip价格' } },
+      //   ],
+      // },
       { path: '/login', name: 'login', component: Login, meta: { title: '登录' } },
       { path: '/register', name: 'register', component: Register, meta: { title: '注册' } },
       { path: '/forgetPwd', name: 'forgetPwd', component: ForgetPwd, meta: { title: '忘记密码' } },
@@ -63,24 +63,17 @@ const router = new Router({
   routes,
 });
 
-// router.beforeEach((to, from, next) => {
-//   // 已经登录的状态
-//   if (jwt.checkAuth()) {
-//     if (to.name === 'home') {
-//       next({ name: 'admin.dashboard' });
-//     } else {
-//       next();
-//     }
-//   } else if (to.name !== 'home') {
-//     next({ name: 'home' });
-//   } else {
-//     next();
-//   }
-// });
+router.beforeEach((to, from, next) => {
+  if (!jwt.checkAuth() && to.name !== 'login' && to.name !== 'register' && to.name !== 'forgetPwd') {
+    next({ name: 'login' });
+  } else {
+    next();
+  }
+});
 
 // 动态设置页面title
 router.afterEach((to) => {
-  document.title = to.meta.title || 'RNKit云服务';
+  document.title = `${to.meta.title} - React Native热更新-RNKit云服务`;
 });
 
 export default router;

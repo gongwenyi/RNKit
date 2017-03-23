@@ -8,12 +8,18 @@ import 'font-awesome/css/font-awesome.min.css';
 // import 'jsoneditor/dist/jsoneditor.min.css';
 import axios from 'axios';
 import vueAxios from 'vue-axios';
+import VueAnalytics from 'vue-analytics';
 import router from './router';
 import store from './store';
 import jwt from './utils/jwt';
 
 Vue.use(ElementUI);
 Vue.use(vueAxios, axios);
+
+Vue.use(VueAnalytics, {
+  id: 'UA-30004265-8',
+  router,
+});
 
 // axios配置
 if (process.env.NODE_ENV === 'development') {

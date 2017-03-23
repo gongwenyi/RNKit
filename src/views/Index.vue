@@ -4,7 +4,7 @@
         <p class="slogan-title">RNKit  云服务</p>
     </div>
     <div class="products">
-      <p class="pro_title">我们的产品</p>
+      <p class="pro_title">我们的服务</p>
       <ul class="pro_contain">
         <li v-for="(item, index) in products" >
           <router-link class="item" :to="{name: 'vip'}">
@@ -27,17 +27,12 @@
             <p class="ser_li_title"> {{ item.message }} </p>
         </li>
       </ul>
-      <button class="ser_join">join us —></button>
     </div>
     <div class="cooperate">
       <p class="pro_title">他们都在用</p>
       <div class="coo_body">
         <img class="coo_pic" src="../assets/index/home_tmdzsypt-792e0d19d5.png">
       </div>
-      <button class="ser_join coo_join">join us —></button>
-    </div>
-    <div class="join">
-      <p class="slogan-title">加入我们，拥有更多可能!</p>
     </div>
   </div>
 </template>
@@ -130,7 +125,7 @@ a:visited{
   border: 2px solid #fff;
 }
 .pro_contain li:hover{
-  border-color: #eee; 
+  border-color: #eee;
 }
 .pro_li_img{
   display: block;
@@ -235,6 +230,7 @@ a:visited{
 }
 /*合作商*/
 .cooperate{
+  display: none;
   padding: 25px 0 0;
 }
 .coo_body{

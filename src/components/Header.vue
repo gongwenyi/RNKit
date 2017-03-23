@@ -6,10 +6,10 @@
       </router-link>
       <div class="nav-list">
         <router-link v-show="authIsLogin === true" class="item" :to="{name: 'myApp'}">我的应用</router-link>
-        <router-link class="item" :to="{name: 'vip'}">价格</router-link>
-        <router-link class="item" :to="{name: 'register'}">文档</router-link>
-        <router-link class="item" :to="{name: 'register'}">工具</router-link>
-        <router-link class="item" :to="{name: 'forgetPwd'}">SDK下载</router-link>
+        <router-link class="item" :to="{name: 'index'}">价格</router-link>
+        <router-link class="item" :to="{name: 'index'}">文档</router-link>
+        <router-link class="item" :to="{name: 'index'}">工具</router-link>
+        <router-link class="item" :to="{name: 'index'}">SDK下载</router-link>
         <router-link v-show="authIsLogin === false" class="item" :to="{name: 'login'}">登录</router-link>
         <router-link v-show="authIsLogin === false" class="item" :to="{name: 'register'}">注册</router-link>
         <div v-show="authIsLogin === true" class="item-me">
