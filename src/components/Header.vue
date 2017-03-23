@@ -7,7 +7,7 @@
       <div class="nav-list">
         <router-link v-show="authIsLogin === true" class="item" :to="{name: 'myApp'}">我的应用</router-link>
         <router-link class="item" :to="{name: 'index'}">价格</router-link>
-        <router-link class="item" :to="{name: 'index'}">文档</router-link>
+        <a class="item" target="_blank" href="https://github.com/rnkit/rnkit-code-push-docs">文档</a>
         <router-link class="item" :to="{name: 'index'}">工具</router-link>
         <router-link class="item" :to="{name: 'index'}">SDK下载</router-link>
         <router-link v-show="authIsLogin === false" class="item" :to="{name: 'login'}">登录</router-link>
