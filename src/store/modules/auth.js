@@ -211,7 +211,7 @@ const actions = {
       if (response.errno === 0) { // 绑定手机号成功
         commit(types.IS_LOADING, { value: false });  // 结束loading
         Message.success('绑定手机号成功');
-        router.replace({ name: 'bind' }); // 刷新页面
+        window.location.reload(); // 刷新页面
       } else {  // 绑定手机号失败
         commit(types.IS_LOADING, { value: false });  // 结束loading
         Message.error(response.errmsg);
@@ -234,7 +234,7 @@ const actions = {
       if (response.errno === 0) { // 绑定邮箱成功
         commit(types.IS_LOADING, { value: false });  // 结束loading
         Message.success('绑定邮箱成功');
-        router.replace({ name: 'bind' }); // 刷新页面
+        window.location.reload(); // 刷新页面
       } else {  // 绑定邮箱失败
         commit(types.IS_LOADING, { value: false });  // 结束loading
         Message.error(response.errmsg);

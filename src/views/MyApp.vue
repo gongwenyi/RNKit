@@ -180,6 +180,10 @@
   .app-version,
   .app-identifier {
     font-size: 12px;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .loadmore-btn-box {
     clear: both;

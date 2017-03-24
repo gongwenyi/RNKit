@@ -9,12 +9,12 @@
       </el-form-item>
       <el-form-item prop="phone" v-if="forgetPwdForm.registerType === 1">
         <el-input size="large" v-model="forgetPwdForm.phone" placeholder="请输入手机号">
-          <el-button slot="append" @click="captchaPhone()">获取验证码</el-button>
+          <el-button slot="append" @click="captchaPhone()":disabled='btnSmsCodeDisabled'>{{btnText}}</el-button>
         </el-input>
       </el-form-item>
       <el-form-item prop="email" v-if="forgetPwdForm.registerType === 2">
         <el-input size="large" v-model="forgetPwdForm.email" placeholder="请输入邮箱">
-          <el-button slot="append" @click="captchaEmail()">获取验证码</el-button>
+          <el-button slot="append" @click="captchaEmail()":disabled='btnSmsCodeDisabled'>{{btnText}}</el-button>
         </el-input>
       </el-form-item>
       <el-form-item prop="verifyCode">
@@ -30,11 +30,15 @@
 
 <script>
 import md5 from 'blueimp-md5';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'forgetPwd',
   data() {
     return {
+      btnText: '获取验证码',
+      btnSmsCodeDisabled: false,
+      time: 60,
       forgetPwdForm: {
         registerType: 1,  // 注册方式
         phone: '', // 用户手机号
@@ -49,7 +53,7 @@ export default {
         ],
         email: [
           { required: true, message: '请输入邮箱', trigger: 'change' },
-          { min: 6, max: 20, message: '长度在 6 到 20 个字符', trigger: 'change' },
+          { min: 6, max: 100, message: '长度在 6 到 100 个字符', trigger: 'change' },
         ],
         verifyCode: [
           { required: true, message: '请输入验证码', trigger: 'change' },
@@ -69,6 +73,9 @@ export default {
     isLoading() {
       return this.$store.state.auth.isLoading;
     },
+    ...mapGetters({
+      countDown: 'countDown',
+    }),
   },
   methods: {
     captchaPhone() {
@@ -77,6 +84,20 @@ export default {
     },
     captchaEmail() {
       this.$store.dispatch('captcha', { account: this.forgetPwdForm.email, action: 'find' });
+    },
+    startCountDown() {
+      const timer = setInterval(() => {
+        this.btnText = this.time;
+        this.btnSmsCodeDisabled = true;
+        if (this.time < 0) {
+          clearInterval(timer);
+          this.time = this.totalTime;
+          this.btnSmsCodeDisabled = false;
+          this.btnText = '重新获取';
+        } else {
+          this.time = this.time - 1;
+        }
+      }, 1000);
     },
     forgetPwd(formName) {
       this.$refs[formName].validate((valid) => {
@@ -91,6 +112,13 @@ export default {
       });
     },
   },
+  watch: {
+    countDown() {
+      if (this.countDown === 1) {
+        this.startCountDown();
+      }
+    },
+  },
   components: {
   },
 };
@@ -102,6 +130,10 @@ export default {
     width: 340px;
     margin: 0 auto;
     padding-top: 100px;
+  }
+  .el-input-group__append .el-button{
+    width: 110px;
+    margin: 0;
   }
   .register-type {
     margin-bottom: 10px;

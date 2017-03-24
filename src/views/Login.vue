@@ -30,7 +30,7 @@ export default {
       rules: {
         username: [
           { required: true, message: '请输入手机号或邮箱', trigger: 'change' },
-          { min: 3, max: 30, message: '长度在 3 到 30 个字符', trigger: 'change' },
+          { min: 3, max: 100, message: '长度在 3 到 100 个字符', trigger: 'change' },
         ],
         password: [
           { required: true, message: '请输入密码', trigger: 'change' },

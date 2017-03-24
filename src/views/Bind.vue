@@ -64,7 +64,7 @@ export default {
         ],
         email: [
           { required: true, message: '请输入邮箱', trigger: 'change' },
-          { min: 6, max: 20, message: '长度在 6 到 20 个字符', trigger: 'change' },
+          { min: 6, max: 100, message: '长度在 6 到 100 个字符', trigger: 'change' },
         ],
         verifyCode: [
           { required: true, message: '请输入验证码', trigger: 'change' },
@@ -113,7 +113,7 @@ export default {
         if (valid) {
           console.log(this.currentUserInfo.reg_type);
           if (this.currentUserInfo.reg_type === 'email') {  // 绑定手机号
-            this.$store.dispatch('bindMobile', { phone: this.bindForm.phone, code: this.bindForm.verifyCode });
+            this.$store.dispatch('bindMobile', { mobile: this.bindForm.phone, code: this.bindForm.verifyCode });
           } else {  // 绑定邮箱
             this.$store.dispatch('bindEmail', { email: this.bindForm.email, code: this.bindForm.verifyCode });
           }

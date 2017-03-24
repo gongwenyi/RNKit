@@ -62,7 +62,7 @@ export default {
         ],
         email: [
           { required: true, message: '请输入邮箱', trigger: 'change' },
-          { min: 6, max: 20, message: '长度在 6 到 20 个字符', trigger: 'change' },
+          { min: 6, max: 100, message: '长度在 6 到 100 个字符', trigger: 'change' },
         ],
         verifyCode: [
           { required: true, message: '请输入验证码', trigger: 'change' },
