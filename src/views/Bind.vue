@@ -7,7 +7,7 @@
       <el-form :model="bindForm" :rules="rules" ref="bindForm">
         <el-form-item prop="email">
           <el-input size="large" v-model="bindForm.email" placeholder="请输入邮箱">
-            <el-button slot="append" @click="captchaEmail()">获取验证码</el-button>
+            <el-button slot="append" @click="captchaEmail()":disabled='btnSmsCodeDisabled'>{{btnText}}</el-button>
           </el-input>
         </el-form-item>
         <el-form-item prop="verifyCode">
@@ -23,7 +23,7 @@
       <el-form :model="bindForm" :rules="rules" ref="bindForm">
         <el-form-item prop="phone">
           <el-input size="large" v-model="bindForm.phone" placeholder="请输入手机号">
-            <el-button slot="append" @click="captchaPhone()">获取验证码</el-button>
+            <el-button slot="append" @click="captchaPhone()":disabled='btnSmsCodeDisabled'>{{btnText}}</el-button>
           </el-input>
         </el-form-item>
         <el-form-item prop="verifyCode">
@@ -49,6 +49,9 @@ export default {
   name: 'bind',
   data() {
     return {
+      btnText: '获取验证码',
+      btnSmsCodeDisabled: false,
+      time: 60,
       bindForm: {
         phone: '', // 用户手机号
         email: '', // 用户邮箱
@@ -80,6 +83,7 @@ export default {
     },
     ...mapGetters({
       currentUserInfo: 'currentUserInfo', // 用户信息
+      countDown: 'countDown',
     }),
   },
   methods: {
@@ -90,17 +94,38 @@ export default {
     captchaEmail() {
       this.$store.dispatch('captcha', { account: this.bindForm.email, action: 'change' });
     },
+    startCountDown() {
+      const timer = setInterval(() => {
+        this.btnText = this.time;
+        this.btnSmsCodeDisabled = true;
+        if (this.time < 0) {
+          clearInterval(timer);
+          this.time = this.totalTime;
+          this.btnSmsCodeDisabled = false;
+          this.btnText = '重新获取';
+        } else {
+          this.time = this.time - 1;
+        }
+      }, 1000);
+    },
     bind(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          // console.log(this.bindForm.registerType);
-          if (this.currentUserInfo.registerType === 'email') {  // 绑定手机号
+          console.log(this.currentUserInfo.reg_type);
+          if (this.currentUserInfo.reg_type === 'email') {  // 绑定手机号
             this.$store.dispatch('bindMobile', { phone: this.bindForm.phone, code: this.bindForm.verifyCode });
           } else {  // 绑定邮箱
             this.$store.dispatch('bindEmail', { email: this.bindForm.email, code: this.bindForm.verifyCode });
           }
         }
       });
+    },
+  },
+  watch: {
+    countDown() {
+      if (this.countDown === 1) {
+        this.startCountDown();
+      }
     },
   },
   components: {
@@ -114,6 +139,10 @@ export default {
     width: 340px;
     margin: 0 auto;
     padding-top: 100px;
+  }
+  .el-input-group__append .el-button{
+    width: 110px;
+    margin: 0;
   }
   .register-type {
     margin-bottom: 10px;
