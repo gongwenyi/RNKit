@@ -79,6 +79,7 @@ const actions = {
       if (response.errno === 0) { // 登录成功
         commit(types.IS_LOADING, { value: false });  // 结束loading
         commit(types.AUTH_IS_LOGIN, { value: true });  // 用户登录状态
+        Message.success('登录成功！');
         // 登录成功后存储token
         jwt.setToken(response.data.token);
         router.replace({ name: 'myApp' });  // 跳转到我的APP页面
