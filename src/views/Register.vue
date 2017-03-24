@@ -12,12 +12,12 @@
       </el-form-item>
       <el-form-item prop="phone" v-if="registerForm.registerType === 1">
         <el-input size="large" v-model="registerForm.phone" placeholder="请输入手机号">
-          <el-button slot="append" @click="captchaPhone()">获取验证码</el-button>
+          <el-button slot="append" @click="captchaPhone()" :disabled='btnSmsCodeDisabled'>{{btnText}}</el-button>
         </el-input>
       </el-form-item>
       <el-form-item prop="email" v-if="registerForm.registerType === 2">
         <el-input size="large" v-model="registerForm.email" placeholder="请输入邮箱">
-          <el-button slot="append" @click="captchaEmail()">获取验证码</el-button>
+          <el-button slot="append" @click="captchaEmail()" :disabled='btnSmsCodeDisabled'>{{btnText}}</el-button>
         </el-input>
       </el-form-item>
       <el-form-item prop="verifyCode">
@@ -34,11 +34,15 @@
 
 <script>
 import md5 from 'blueimp-md5';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'register',
   data() {
     return {
+      btnText: '获取验证码',
+      btnSmsCodeDisabled: false,
+      time: 60,
       registerForm: {
         username: '', // 用户名
         registerType: 1,
@@ -78,14 +82,30 @@ export default {
     isLoading() {
       return this.$store.state.auth.isLoading;
     },
+    ...mapGetters({
+      countDown: 'countDown',
+    }),
   },
   methods: {
     captchaPhone() {
-      console.log(this.registerForm.phone);
       this.$store.dispatch('captcha', { account: this.registerForm.phone, action: 'reg' });
     },
     captchaEmail() {
       this.$store.dispatch('captcha', { account: this.registerForm.email, action: 'reg' });
+    },
+    startCountDown() {
+      const timer = setInterval(() => {
+        this.btnText = this.time;
+        this.btnSmsCodeDisabled = true;
+        if (this.time < 0) {
+          clearInterval(timer);
+          this.time = this.totalTime;
+          this.btnSmsCodeDisabled = false;
+          this.btnText = '重新获取';
+        } else {
+          this.time = this.time - 1;
+        }
+      }, 1000);
     },
     register(formName) {
       this.$refs[formName].validate((valid) => {
@@ -98,6 +118,13 @@ export default {
           }
         }
       });
+    },
+  },
+  watch: {
+    countDown() {
+      if (this.countDown === 1) {
+        this.startCountDown();
+      }
     },
   },
   components: {
@@ -114,6 +141,10 @@ export default {
   }
   .input-username {
     margin-bottom: 15px;
+  }
+  .el-input-group__append .el-button{
+    width: 110px;
+    margin: 0;
   }
   .register-type {
     margin-bottom: 10px;

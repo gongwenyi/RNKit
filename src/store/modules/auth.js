@@ -6,6 +6,7 @@ import { auth as authApi } from '../../api';
 
 const defaultState = {
   isLoading: false, // 是否loading状态
+  countDown: 0, // 是否成功发送验证码开始倒计时状态
   authIsLogin: jwt.checkAuth() || false, // 用户是否已经登录，如果localStorage中的token不为空，则为登录状态
   refreshToken: false,  // 刷新token请求
   currentUserInfo: {},  // 当前登录用户的信息
@@ -14,6 +15,7 @@ const defaultState = {
 const getters = {
   authIsLogin: state => state.authIsLogin,
   currentUserInfo: state => state.currentUserInfo,
+  countDown: state => state.countDown,
 };
 
 const actions = {
@@ -51,8 +53,10 @@ const actions = {
    * @returns
    */
   captcha({ commit }, paramObject) {
+    commit(types.COUNTDOWN, 0);  // 倒计时状态
     return authApi.captcha(paramObject).then((response) => {
       if (response.errno === 0) { // 发送验证码成功
+        commit(types.COUNTDOWN, 1);  // 倒计时状态
         Message.success('发送验证码成功,请注意查收');
       } else {  // 发送验证码失败
         Message.error(response.errmsg);
@@ -75,9 +79,9 @@ const actions = {
       if (response.errno === 0) { // 登录成功
         commit(types.IS_LOADING, { value: false });  // 结束loading
         commit(types.AUTH_IS_LOGIN, { value: true });  // 用户登录状态
-        router.replace({ name: 'myApp' });  // 跳转到我的APP页面
         // 登录成功后存储token
         jwt.setToken(response.data.token);
+        router.replace({ name: 'myApp' });  // 跳转到我的APP页面
       } else {  // 登录失败
         commit(types.IS_LOADING, { value: false });  // 结束loading
         Message.error(response.errmsg);
@@ -244,6 +248,9 @@ const actions = {
 const mutations = {
   [types.IS_LOADING](state, payload) {
     state.isLoading = payload.value;
+  },
+  [types.COUNTDOWN](state, payload) {
+    state.countDown = payload;
   },
   [types.AUTH_IS_LOGIN](state, payload) {
     state.authIsLogin = payload.value;

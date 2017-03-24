@@ -7,6 +7,7 @@ export const IS_INDEX_PAGE = 'IS_INDEX_PAGE'; // 是否位于首页
 
 // auth
 export const AUTH_IS_LOGIN = 'AUTH_IS_LOGIN'; // 用户是否登录
+export const COUNTDOWN = 'COUNTDOWN'; // 用户是否登录
 export const AUTH_CURRENT_USER = 'AUTH_CURRENT_USER'; // 当前用户信息
 export const AUTH_LOGOUT = 'AUTH_LOGOUT'; // 用户退出
 export const AUTH_REFRESH_TOKEN = 'AUTH_REFRESH_TOKEN'; // 刷新token
