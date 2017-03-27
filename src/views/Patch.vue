@@ -493,14 +493,12 @@
       handleRemove() {
       },
       handleSuccess(response) { // 上传文件成功，保存七牛返回的数据
-        console.log(1111111111111);
-        console.log(response);
+        // console.log(response);
         this.qiniuResponse = Object.assign({}, this.qiniuResponse, response);
       },
       handleError() {
       },
       createPackage(formName) {  // 创建package
-        console.log(121212121212);
         this.$refs[formName].validate((valid) => {
           if (valid) {
             // 创建package
