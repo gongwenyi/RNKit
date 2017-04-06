@@ -15,7 +15,7 @@ module.exports = {
     path: config.build.assetsRoot,
     filename: '[name].js',
     publicPath: process.env.NODE_ENV === 'production'
-      ? config.build.assetsPublicPath
+      ? 'https://img.cp.rnkit.ttstatic.net/'
       : config.dev.assetsPublicPath
   },
   resolve: {
