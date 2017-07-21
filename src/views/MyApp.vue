@@ -9,7 +9,7 @@
         <p v-if="item.platform === 1" class="platform"><i class="fa fa-apple"></i>iOS</p>
         <p v-if="item.platform === 2" class="platform"><i class="fa fa-android"></i>Android</p>
         <!--app名称-->
-        <h3>{{item.name}}</h3>
+        <h3 class="app-name">{{item.name}}</h3>
         <!--app最新版本-->
         <p class="app-version">App最新版本：{{item.app_version || ''}}</p>
         <!--应用包名-->
@@ -176,6 +176,12 @@
     font-size: 16px;
     /*color: #95C03B;*/
     margin-right: 5px;
+  }
+  .app-name{
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .app-version,
   .app-identifier {

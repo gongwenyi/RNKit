@@ -11,9 +11,9 @@
           <p v-if="appInfo.platform === 2" class="platform"><i class="fa fa-android"></i>Android</p>
           <p class="app-name">{{appInfo.name}}</p>
           <!--app最新版本-->
-          <p>App最新版本：{{appInfo.app_version || ''}}</p>
+          <p class="app-version">App最新版本：{{appInfo.app_version || ''}}</p>
           <!--应用包名-->
-          <p>应用包名：{{appInfo.app_identifier}}</p>
+          <p class="app-identifier">应用包名：{{appInfo.app_identifier}}</p>
         </div>
         <div class="nav">
           <router-link class="nav-item" :to="{name: 'patch'}">
@@ -78,6 +78,8 @@
   }
   .grid-nav {
     flex: 5;
+    max-width: 30%;
+    overflow: hidden;
   }
   .grid-content {
     flex: 16;
@@ -88,6 +90,8 @@
   .app-info {
     padding-top: 100px;
     text-align: center;
+    max-height: 500px;
+    overflow: hidden;
   }
   .app-logo {
     width: 100px;
@@ -95,6 +99,13 @@
   .app-name,
   .app-key {
     font-size: 16px;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .app-identifier{
+    word-break:break-all;
   }
   .platform {
     font-size: 14px;

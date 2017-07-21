@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import jwt from '../utils/jwt';
 import App from '../App';
-// import Index from '../views/Index';
+import Index from '../views/Index';
 // import Product from '../views/Product';
 // import Vip from '../views/product/Vip';
 // import Vvip from '../views/product/Vvip';
@@ -26,7 +26,7 @@ const routes = [
     component: App,
     redirect: { name: 'index' },
     children: [
-      { path: '/index', name: 'index', component: MyApp, meta: { title: 'RNKit云服务' } },
+      { path: '/index', name: 'index', component: Index, meta: { title: 'RNKit云服务' } },
       // { path: '/product', name: 'product', component: Product, meta: { title: '价格' } },
       // { path: '/product',
       //   name: 'product',
@@ -64,7 +64,7 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
-  if (!jwt.checkAuth() && to.name !== 'login' && to.name !== 'register' && to.name !== 'forgetPwd') {
+  if (!jwt.checkAuth() && to.name !== 'login' && to.name !== 'index' && to.name !== 'register' && to.name !== 'forgetPwd') {
     next({ name: 'login' });
   } else {
     next();

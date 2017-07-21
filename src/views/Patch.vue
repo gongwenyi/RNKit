@@ -113,7 +113,7 @@
       </div>
     </div>
     <!--创建/编辑package-->
-    <el-dialog :title="addPackageFormTitle" v-model="addPackageFormVisible" size="small" :close-on-click-modal="false">
+    <el-dialog :title="addPackageFormTitle" v-model="addPackageFormVisible" size="small" :close-on-click-modal="false" >
       <el-form :model="addPackageForm" :rules="packageFormRules" ref="addPackageForm">
         <el-form-item prop="name" label="package名称" :label-width="formLabelWidth">
           <el-input v-model="addPackageForm.name"></el-input>
@@ -472,12 +472,11 @@
         this.getFileToken();  // 获取七牛文件上传凭证
       },
       handlePackageBeforeUpload(file) {  // 上传文件之前检查文件格式是否符合要求
-        // console.log(file);
-        if (!(this.appInfo.platform === 1 && file.name.lastIndexOf('.ipa') === file.name.length - 4)) {
+        if (this.appInfo.platform === 1 && file.name.lastIndexOf('.ipa') !== (file.name.length - 4)) {
           this.$message.error('只能上传.ipa格式的文件！');
           return false;
         }
-        if (!(this.appInfo.platform === 2 && file.name.lastIndexOf('.apk') === file.name.length - 4)) {
+        if (this.appInfo.platform === 2 && file.name.lastIndexOf('.apk') !== (file.name.length - 4)) {
           this.$message.error('只能上传.apk格式的文件！');
           return false;
         }
@@ -670,6 +669,11 @@
   };
 
 </script>
+<style>
+  .el-dialog{
+    min-width: 650px;
+  }
+</style>
 <style scoped>
   .container {
     display: flex;
@@ -769,6 +773,25 @@
   }
   .el-upload {
     width: 100%;
+  }
+  .package-upload{
+    background-color: #fff;
+    border-radius: 6px;
+    box-sizing: border-box;
+    width: 90%;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .el-dragger__text em{
+    color: #20a0ff;
+  }
+  .el-icon-upload{
+    font-size: 67px;
+    color: #97a8be;
+    margin: 40px 0 16px;
+    line-height: 50px;
   }
   .item-row {
     display: -webkit-flex;
