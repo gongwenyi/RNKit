@@ -24,7 +24,7 @@ const routes = [
   {
     path: '/',
     component: App,
-    redirect: 'login',
+    redirect: { name: 'index' },
     children: [
       { path: '/index', name: 'index', component: MyApp, meta: { title: 'RNKit云服务' } },
       // { path: '/product', name: 'product', component: Product, meta: { title: '价格' } },
