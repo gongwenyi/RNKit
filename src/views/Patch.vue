@@ -628,7 +628,7 @@
         this.addVersionForm.isReleaseNow = false;  // 立即发布
         this.addVersionForm.releaseTime = moment(versionInfo.release_time).format('YYYY-MM-DD HH:mm:ss');  // 发布时间
         this.addVersionForm.description = versionInfo.description;  // 更新描述
-        this.addVersionForm.metaInfo = versionInfo.metaInfo;  // 扩展字段
+        this.addVersionForm.metaInfo = versionInfo.meta_info;  // 扩展字段
         // this.versionFileList = [];  // 清空已上传的文件列表
         this.addVersionFormVisible = true;
         this.getFileToken();  // 获取七牛文件上传凭证
