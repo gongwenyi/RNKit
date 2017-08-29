@@ -9,6 +9,7 @@ import auth from './modules/auth';
 import app from './modules/app';
 import packages from './modules/package';
 import version from './modules/version';
+import statistics from './modules/statistics';
 
 Vue.use(Vuex);
 
@@ -21,6 +22,7 @@ const store = new Vuex.Store({
     app,
     packages,
     version,
+    statistics,
   },
   strict: debug, //是否开启严格模式
 });

@@ -33,3 +33,6 @@ export const VERSION_LIST_SHOULD_RELOAD = 'VERSION_LIST_SHOULD_RELOAD'; // 创�
 export const CREATE_VERSION_SUCCESS = 'CREATE_VERSION_SUCCESS'; // 创建version是否成功
 export const EDIT_VERSION_SUCCESS = 'EDIT_VERSION_SUCCESS'; // 编辑version是否成功
 export const DEL_VERSION_SUCCESS = 'DEL_VERSION_SUCCESS'; // 删除version是否成功
+
+// statistics
+export const GET_STATISTICS_INFO = 'GET_STATISTICS_INFO'; // 获取补丁统计信息

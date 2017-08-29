@@ -1,98 +1,60 @@
 <template>
   <div class="container">
-    <div class="chart">
-      <h3 class="chart-title">最近一周更新成功和失败数量</h3>
-      <bar-chart
-        :chart-data="barDatacollection"
-        :options="{responsive: false, maintainAspectRatio: true}"
-        :width="600"
-        :height="350"
-      ></bar-chart>
-    </div>
-    <div class="chart">
-      <h3 class="chart-title">各个版本所占比例</h3>
-      <doughnut-chart
-        :chart-data="doughnutDatacollection"
-        :options="{responsive: false, maintainAspectRatio: true}"
-        :width="600"
-        :height="350"
-      ></doughnut-chart>
-    </div>
+    <el-table
+      :data="statisticsInfo"
+      style="width: 100%">
+      <el-table-column
+        prop="name"
+        label="补丁名称">
+      </el-table-column>
+      <el-table-column
+        prop="count"
+        label="数量">
+      </el-table-column>
+      <el-table-column
+        label="创建时间">
+        <template scope="scope">
+          <span>{{ scope.row.created_at | formatTime }}</span>
+        </template>
+      </el-table-column>
+    </el-table>
   </div>
 </template>
 
 <script>
-  import BarChart from '../chart/barChart';
-  import DoughnutChart from '../chart/doughnutChart';
+  import { mapGetters } from 'vuex';
+  import moment from 'moment';
 
   export default {
     name: 'monitor',
     data() {
       return {
-        barDatacollection: null,
-        doughnutDatacollection: null,
+        app_key: this.$route.params.key,  // 从路由中获取app的key，创建app的时候会生成一个唯一的key值
+        statisticsInfo: [], // 统计信息
       };
     },
     computed: {
+      ...mapGetters({
+        statisticsInfo: 'statisticsInfo', // app详情
+      }),
     },
     created: function created() {
-      this.fillBarData();
-      this.fillDoughnutData();
+      this.$store.dispatch('getInfo', { appKey: this.app_key });  // 补丁统计信息
     },
     methods: {
-      fillBarData() {
-        this.barDatacollection = {
-          labels: ['一', '二', '三', '四', '五', '六', '七'],
-          datasets: [
-            {
-              label: '装机量',
-              backgroundColor: '#49b2d4',
-              data: [20, 50, 30, 80, 40, 100, 70],
-            }, {
-              label: '成功量',
-              backgroundColor: '#549975',
-              data: [18, 45, 26, 80, 37, 92, 66],
-            }, {
-              label: '失败量',
-              backgroundColor: '#b35f4e',
-              data: [2, 5, 4, 0, 3, 8, 4],
-            },
-          ],
-        };
-      },
-      fillDoughnutData() {
-        this.doughnutDatacollection = {
-          labels: ['1.0.0', '2.1.0', '3.0.0', '4.0.0'],
-          datasets: [
-            {
-              backgroundColor: ['#49b2d4', '#549975', '#b35f4e', '#7c5299'],
-              borderWidth: 0,
-              data: [20, 50, 30, 80],
-            },
-          ],
-        };
+
+    },
+    filters: {
+      formatTime: function xx(time) {
+        return moment(time).format('YYYY-MM-DD HH:mm:ss');
       },
     },
     components: {
-      BarChart,
-      DoughnutChart,
     },
   };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .chart {
-    width: 620px;
-    padding: 10px;
-    margin: 50px auto;
-    background-color: #222733;
-    border-radius: 4px;
-  }
-  .chart-title {
-    padding-bottom: 8px;
-    text-align: center;
-    color: #83211d;
-    border-bottom: 1px solid #2d3446;
-  }
+
 </style>

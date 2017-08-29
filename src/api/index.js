@@ -120,9 +120,17 @@ const version = {
   },
 };
 
+// 统计信息
+const statistics = {
+  info(paramObject) {
+    return Vue.axios.get('/statistics/info', { params: paramObject });
+  },
+};
+
 export {
   auth,
   app,
   packages,
   version,
+  statistics,
 };
